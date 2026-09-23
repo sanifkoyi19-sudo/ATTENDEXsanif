@@ -1,0 +1,3012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ATTENDX - College Attendance</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg-color:#0b0f14;
+    --font-family:'Poppins',sans-serif;
+
+    --theme-color:#2a2c30;
+    --theme-glow-rgb:42,44,48;
+
+    --shade-color:#2c2c2c;
+    --bulb-color:#1a1a1a;
+    --light-opacity:0;
+
+    --btn-text-color:#888;
+    --btn-bg:#2a2c30;
+
+    --green:#22c55e;
+    --red:#ef4444;
+    --yellow:#f59e0b;
+
+    --card:#121820;
+    --border:rgba(255,255,255,.08);
+    --muted:#8d98a8;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:var(--font-family);
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(var(--theme-glow-rgb),.15),
+            transparent 40%
+        ),
+        var(--bg-color);
+    color:#fff;
+    min-height:100vh;
+}
+
+/* ================= LOGIN ================= */
+
+#loginPage{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.login-wrapper{
+    width:100%;
+    max-width:420px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+/* Lamp */
+
+.lamp-area{
+    width:180px;
+    height:230px;
+    position:relative;
+    margin-bottom:-20px;
+}
+
+.lamp-svg{
+    width:100%;
+    height:100%;
+    overflow:visible;
+}
+
+.lamp-shade{
+    fill:var(--shade-color);
+    transition:.35s;
+}
+
+.lamp-bulb{
+    fill:var(--bulb-color);
+    transition:.35s;
+}
+
+.lamp-light{
+    fill:var(--theme-color);
+    opacity:var(--light-opacity);
+    transition:.35s;
+}
+
+.pull-string-group{
+    transition:transform .15s ease;
+    cursor:pointer;
+}
+
+.pull-string{
+    stroke:#999;
+    stroke-width:2;
+}
+
+.pull-ball{
+    fill:#aaa;
+}
+
+.face-awake{
+    opacity:0;
+    transition:.3s;
+}
+
+.face-sleep{
+    opacity:1;
+    transition:.3s;
+}
+
+.login-card{
+    width:100%;
+    background:rgba(18,24,32,.95);
+    border:1px solid var(--border);
+    border-radius:24px;
+    padding:30px;
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.45),
+        0 0 40px rgba(var(--theme-glow-rgb),.08);
+    backdrop-filter:blur(20px);
+}
+
+.login-title{
+    text-align:center;
+    font-size:30px;
+    font-weight:700;
+    letter-spacing:1px;
+}
+
+.login-subtitle{
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+    margin-top:5px;
+    margin-bottom:25px;
+}
+
+.input-group{
+    position:relative;
+    margin-bottom:15px;
+}
+
+.input-group input{
+    width:100%;
+    height:52px;
+    border:1px solid var(--border);
+    border-radius:13px;
+    outline:none;
+    background:#0d131a;
+    color:#fff;
+    padding:0 16px;
+    font-family:inherit;
+    transition:.25s;
+}
+
+.input-group input:focus{
+    border-color:var(--theme-color);
+    box-shadow:0 0 0 3px rgba(var(--theme-glow-rgb),.12);
+}
+
+.password-toggle{
+    position:absolute;
+    right:15px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#888;
+    cursor:pointer;
+    user-select:none;
+}
+
+.login-btn{
+    width:100%;
+    height:52px;
+    border:none;
+    border-radius:13px;
+    background:var(--btn-bg);
+    color:var(--btn-text-color);
+    font-family:inherit;
+    font-weight:600;
+    font-size:15px;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.login-btn:hover{
+    filter:brightness(1.15);
+    transform:translateY(-1px);
+}
+
+.login-error{
+    display:none;
+    color:var(--red);
+    text-align:center;
+    font-size:13px;
+    margin-top:13px;
+}
+
+.login-demo{
+    text-align:center;
+    margin-top:18px;
+    color:#687382;
+    font-size:11px;
+}
+
+/* ================= APP ================= */
+
+#app{
+    display:none;
+    min-height:100vh;
+    padding-bottom:100px;
+}
+
+.app-container{
+    width:100%;
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+}
+
+/* Topbar */
+
+.topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:25px;
+}
+
+.brand{
+    font-size:24px;
+    font-weight:700;
+    letter-spacing:1px;
+}
+
+.brand span{
+    color:var(--green);
+}
+
+.profile-area{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.avatar{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#1b232d;
+    border:1px solid var(--border);
+    font-size:17px;
+}
+
+.logout-btn{
+    border:1px solid var(--border);
+    background:#111820;
+    color:#aaa;
+    border-radius:10px;
+    padding:9px 13px;
+    cursor:pointer;
+    font-family:inherit;
+}
+
+.logout-btn:hover{
+    color:#fff;
+    border-color:#555;
+}
+
+/* Sections */
+
+.section{
+    display:none;
+}
+
+.section.active{
+    display:block;
+}
+
+/* Welcome */
+
+.welcome{
+    margin-bottom:20px;
+}
+
+.welcome h1{
+    font-size:27px;
+    margin-bottom:4px;
+}
+
+.welcome p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* Cards */
+
+.card{
+    background:linear-gradient(
+        145deg,
+        rgba(18,24,32,.98),
+        rgba(14,19,26,.98)
+    );
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:20px;
+    margin-bottom:18px;
+}
+
+.card-title{
+    font-size:15px;
+    font-weight:600;
+    margin-bottom:16px;
+}
+
+/* Attendance overview */
+
+.overall-card{
+    position:relative;
+    overflow:hidden;
+}
+
+.overall-card::after{
+    content:"";
+    position:absolute;
+    width:160px;
+    height:160px;
+    border-radius:50%;
+    right:-70px;
+    top:-70px;
+    background:rgba(34,197,94,.06);
+}
+
+.overall-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.overall-percent{
+    font-size:44px;
+    font-weight:700;
+    line-height:1;
+}
+
+.overall-label{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:6px;
+}
+
+.progress{
+    width:100%;
+    height:9px;
+    background:#202833;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:20px;
+}
+
+.progress-bar{
+    height:100%;
+    width:0;
+    background:var(--green);
+    border-radius:20px;
+    transition:.5s;
+}
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:18px;
+}
+
+.stat{
+    background:#0d131a;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:15px;
+}
+
+.stat-value{
+    font-size:22px;
+    font-weight:700;
+}
+
+.stat-label{
+    font-size:11px;
+    color:var(--muted);
+    margin-top:3px;
+}
+
+.present-text{
+    color:var(--green);
+}
+
+.absent-text{
+    color:var(--red);
+}
+
+/* Subject cards */
+
+.subject-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+}
+
+.subject-card{
+    background:#0d131a;
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:17px;
+}
+
+.subject-name{
+    font-size:14px;
+    font-weight:600;
+    margin-bottom:10px;
+}
+
+.subject-percent{
+    font-size:25px;
+    font-weight:700;
+}
+
+.subject-mini{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:3px;
+}
+
+.subject-progress{
+    height:6px;
+    background:#222b35;
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:12px;
+}
+
+.subject-progress-bar{
+    height:100%;
+    background:var(--green);
+    border-radius:10px;
+}
+
+/* ================= CALENDAR ================= */
+
+.calendar-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.calendar-title{
+    font-size:20px;
+    font-weight:600;
+}
+
+.month-buttons{
+    display:flex;
+    gap:7px;
+}
+
+.month-btn{
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:#111820;
+    color:#fff;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.month-btn:hover{
+    background:#1a222d;
+}
+
+.weekdays{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:7px;
+    margin-bottom:7px;
+}
+
+.weekday{
+    text-align:center;
+    color:#697586;
+    font-size:11px;
+    font-weight:600;
+    padding:7px 0;
+}
+
+.calendar-grid{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:7px;
+}
+
+.day{
+    min-height:82px;
+    background:#0d131a;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:9px;
+    cursor:pointer;
+    transition:.2s;
+    position:relative;
+}
+
+.day:hover{
+    border-color:#555;
+    transform:translateY(-1px);
+}
+
+.day.empty{
+    opacity:0;
+    pointer-events:none;
+}
+
+.day.weekend{
+    opacity:.42;
+    cursor:not-allowed;
+}
+
+.day.today{
+    border-color:var(--green);
+    box-shadow:0 0 0 1px rgba(34,197,94,.15);
+}
+
+.day-number{
+    font-size:12px;
+    font-weight:600;
+}
+
+.day-status{
+    margin-top:12px;
+    font-size:9px;
+    font-weight:600;
+}
+
+.day-status.present{
+    color:var(--green);
+}
+
+.day-status.absent{
+    color:var(--red);
+}
+
+.day-status.mixed{
+    color:var(--yellow);
+}
+
+.day-status.none{
+    color:#555f6d;
+}
+
+/* Calendar legend */
+
+.legend{
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+    margin-top:18px;
+    color:var(--muted);
+    font-size:11px;
+}
+
+.legend-item{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.legend-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+}
+
+.legend-green{
+    background:var(--green);
+}
+
+.legend-red{
+    background:var(--red);
+}
+
+.legend-yellow{
+    background:var(--yellow);
+}
+
+/* ================= SUBJECTS ================= */
+
+.page-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:18px;
+}
+
+.page-header h2{
+    font-size:21px;
+}
+
+.add-btn{
+    border:none;
+    background:var(--green);
+    color:#06100a;
+    font-family:inherit;
+    font-weight:600;
+    padding:10px 15px;
+    border-radius:11px;
+    cursor:pointer;
+}
+
+.add-btn:hover{
+    filter:brightness(1.08);
+}
+
+.subject-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.subject-row{
+    background:#0d131a;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:15px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.subject-row-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.subject-icon{
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#18212b;
+}
+
+.delete-subject{
+    border:none;
+    background:rgba(239,68,68,.08);
+    color:var(--red);
+    width:35px;
+    height:35px;
+    border-radius:9px;
+    cursor:pointer;
+}
+
+/* ================= BOTTOM NAV ================= */
+
+.bottom-nav{
+    position:fixed;
+    left:50%;
+    bottom:18px;
+    transform:translateX(-50%);
+    width:min(520px,calc(100% - 30px));
+    background:rgba(17,24,32,.95);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:8px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:5px;
+    backdrop-filter:blur(18px);
+    z-index:50;
+    box-shadow:0 15px 40px rgba(0,0,0,.35);
+}
+
+.nav-btn{
+    border:none;
+    background:transparent;
+    color:#727d8b;
+    padding:11px 5px;
+    border-radius:13px;
+    font-family:inherit;
+    font-size:11px;
+    cursor:pointer;
+}
+
+.nav-btn span{
+    display:block;
+    font-size:18px;
+    margin-bottom:2px;
+}
+
+.nav-btn.active{
+    background:#202934;
+    color:#fff;
+}
+
+/* ================= MODALS ================= */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.72);
+    backdrop-filter:blur(7px);
+    z-index:100;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:500px;
+    max-height:90vh;
+    overflow-y:auto;
+    background:#121820;
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:22px;
+    box-shadow:0 30px 80px rgba(0,0,0,.55);
+}
+
+.modal-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:18px;
+}
+
+.modal-title{
+    font-size:18px;
+    font-weight:600;
+}
+
+.close-btn{
+    border:none;
+    background:#1a222c;
+    color:#aaa;
+    width:35px;
+    height:35px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.attendance-date{
+    color:var(--muted);
+    font-size:12px;
+    margin-bottom:18px;
+}
+
+.attendance-row{
+    background:#0d131a;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:13px;
+    margin-bottom:10px;
+}
+
+.attendance-subject{
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:10px;
+}
+
+.attendance-options{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:7px;
+}
+
+.attendance-option{
+    border:1px solid var(--border);
+    background:#151c24;
+    color:#8994a2;
+    border-radius:9px;
+    padding:9px 5px;
+    cursor:pointer;
+    font-family:inherit;
+    font-size:10px;
+    transition:.2s;
+}
+
+.attendance-option.present.active{
+    background:rgba(34,197,94,.13);
+    border-color:var(--green);
+    color:var(--green);
+}
+
+.attendance-option.absent.active{
+    background:rgba(239,68,68,.13);
+    border-color:var(--red);
+    color:var(--red);
+}
+
+.attendance-option.none.active{
+    background:rgba(245,158,11,.1);
+    border-color:var(--yellow);
+    color:var(--yellow);
+}
+
+.save-btn{
+    width:100%;
+    height:48px;
+    margin-top:10px;
+    border:none;
+    background:var(--green);
+    color:#06100a;
+    font-family:inherit;
+    font-weight:700;
+    border-radius:12px;
+    cursor:pointer;
+}
+
+/* Subject modal */
+
+.subject-input{
+    width:100%;
+    height:48px;
+    background:#0d131a;
+    border:1px solid var(--border);
+    color:#fff;
+    outline:none;
+    border-radius:12px;
+    padding:0 14px;
+    font-family:inherit;
+}
+
+.subject-input:focus{
+    border-color:var(--green);
+}
+
+/* Toast */
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:95px;
+    transform:translateX(-50%) translateY(20px);
+    background:#18212b;
+    border:1px solid var(--border);
+    color:#fff;
+    padding:11px 17px;
+    border-radius:12px;
+    font-size:12px;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+    z-index:200;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:768px){
+
+    .app-container{
+        padding:15px;
+    }
+
+    .subject-grid{
+        grid-template-columns:1fr;
+    }
+
+    .day{
+        min-height:64px;
+        padding:7px;
+    }
+
+    .day-status{
+        margin-top:8px;
+    }
+
+    .stats-grid{
+        gap:7px;
+    }
+
+    .stat{
+        padding:12px 8px;
+    }
+
+    .stat-value{
+        font-size:18px;
+    }
+
+    .calendar-grid,
+    .weekdays{
+        gap:4px;
+    }
+
+    .weekday{
+        font-size:9px;
+    }
+
+    .day-number{
+        font-size:10px;
+    }
+
+}
+
+@media(max-width:430px){
+
+    .login-card{
+        padding:23px;
+    }
+
+    .overall-percent{
+        font-size:37px;
+    }
+
+    .calendar-title{
+        font-size:17px;
+    }
+
+    .day{
+        min-height:57px;
+    }
+
+    .day-status{
+        font-size:7px;
+    }
+
+    .stats-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     LOGIN PAGE
+===================================================== -->
+
+<div id="loginPage">
+
+    <div class="login-wrapper">
+
+        <!-- Lamp -->
+        <div class="lamp-area">
+
+            <svg class="lamp-svg"
+                 viewBox="0 0 180 230"
+                 xmlns="http://www.w3.org/2000/svg">
+
+                <!-- glow -->
+                <ellipse
+                    class="lamp-light"
+                    cx="90"
+                    cy="125"
+                    rx="78"
+                    ry="80"/>
+
+                <!-- wire -->
+                <line
+                    x1="90"
+                    y1="5"
+                    x2="90"
+                    y2="48"
+                    stroke="#777"
+                    stroke-width="3"/>
+
+                <!-- shade -->
+                <path
+                    class="lamp-shade"
+                    d="M48 48
+                       Q90 30 132 48
+                       L150 115
+                       Q90 135 30 115
+                       Z"/>
+
+                <!-- bulb -->
+                <circle
+                    class="lamp-bulb"
+                    cx="90"
+                    cy="112"
+                    r="17"/>
+
+                <!-- face -->
+                <g class="face-awake">
+                    <circle cx="84" cy="109" r="2.5" fill="#111"/>
+                    <circle cx="96" cy="109" r="2.5" fill="#111"/>
+                    <path
+                        d="M83 117 Q90 123 97 117"
+                        fill="none"
+                        stroke="#111"
+                        stroke-width="2"
+                        stroke-linecap="round"/>
+                </g>
+
+                <g class="face-sleep">
+                    <path
+                        d="M81 110 Q85 113 89 110"
+                        fill="none"
+                        stroke="#777"
+                        stroke-width="2"
+                        stroke-linecap="round"/>
+                    <path
+                        d="M92 110 Q96 113 100 110"
+                        fill="none"
+                        stroke="#777"
+                        stroke-width="2"
+                        stroke-linecap="round"/>
+                </g>
+
+                <!-- pull string -->
+                <g class="pull-string-group"
+                   onclick="toggleLamp()">
+
+                    <line
+                        class="pull-string"
+                        x1="130"
+                        y1="58"
+                        x2="140"
+                        y2="180"/>
+
+                    <circle
+                        class="pull-ball"
+                        cx="140"
+                        cy="187"
+                        r="7"/>
+
+                </g>
+
+            </svg>
+
+        </div>
+
+        <!-- Login Card -->
+
+        <div class="login-card">
+
+            <div class="login-title">
+                ATTEND<span style="color:var(--green)">X</span>
+            </div>
+
+            <div class="login-subtitle">
+                Personal College Attendance Tracker
+            </div>
+
+            <div class="input-group">
+                <input
+                    id="username"
+                    type="text"
+                    placeholder="Username"
+                    autocomplete="off">
+            </div>
+
+            <div class="input-group">
+
+                <input
+                    id="password"
+                    type="password"
+                    placeholder="Password"
+                    autocomplete="off">
+
+                <span
+                    class="password-toggle"
+                    onclick="togglePassword()">
+                    👁
+                </span>
+
+            </div>
+
+            <button
+                class="login-btn"
+                onclick="login()">
+                Login
+            </button>
+
+            <div
+                id="loginError"
+                class="login-error">
+                Invalid username or password
+            </div>
+
+            <div class="login-demo">
+                Personal account
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MAIN APP
+===================================================== -->
+
+<div id="app">
+
+    <div class="app-container">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <div class="brand">
+                ATTEND<span>X</span>
+            </div>
+
+            <div class="profile-area">
+
+                <div class="avatar">
+                    👤
+                </div>
+
+                <button
+                    class="logout-btn"
+                    onclick="logout()">
+                    Logout
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             HOME
+        ================================================== -->
+
+        <section
+            id="home"
+            class="section active">
+
+            <div class="welcome">
+
+                <h1>
+                    Welcome, Sanif 👋
+                </h1>
+
+                <p>
+                    Track your college attendance
+                </p>
+
+            </div>
+
+
+            <!-- Overall -->
+
+            <div class="card overall-card">
+
+                <div class="overall-top">
+
+                    <div>
+
+                        <div
+                            id="overallPercentage"
+                            class="overall-percent">
+                            0%
+                        </div>
+
+                        <div class="overall-label">
+                            Overall Attendance
+                        </div>
+
+                    </div>
+
+                    <div style="font-size:35px;">
+                        📊
+                    </div>
+
+                </div>
+
+                <div class="progress">
+                    <div
+                        id="overallProgress"
+                        class="progress-bar">
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+
+                    <div class="stat">
+
+                        <div
+                            id="presentHours"
+                            class="stat-value present-text">
+                            0
+                        </div>
+
+                        <div class="stat-label">
+                            Present Hours
+                        </div>
+
+                    </div>
+
+                    <div class="stat">
+
+                        <div
+                            id="absentHours"
+                            class="stat-value absent-text">
+                            0
+                        </div>
+
+                        <div class="stat-label">
+                            Absent Hours
+                        </div>
+
+                    </div>
+
+                    <div class="stat">
+
+                        <div
+                            id="conductedHours"
+                            class="stat-value">
+                            0
+                        </div>
+
+                        <div class="stat-label">
+                            Conducted Hours
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Subject attendance -->
+
+            <div class="card">
+
+                <div class="card-title">
+                    Subject Attendance
+                </div>
+
+                <div
+                    id="homeSubjects"
+                    class="subject-grid">
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             CALENDAR
+        ================================================== -->
+
+        <section
+            id="calendar"
+            class="section">
+
+            <div class="card">
+
+                <div class="calendar-header">
+
+                    <div
+                        id="calendarTitle"
+                        class="calendar-title">
+                        September 2026
+                    </div>
+
+                    <div class="month-buttons">
+
+                        <button
+                            class="month-btn"
+                            onclick="changeMonth(-1)">
+                            ‹
+                        </button>
+
+                        <button
+                            class="month-btn"
+                            onclick="changeMonth(1)">
+                            ›
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="weekdays">
+
+                    <div class="weekday">MON</div>
+                    <div class="weekday">TUE</div>
+                    <div class="weekday">WED</div>
+                    <div class="weekday">THU</div>
+                    <div class="weekday">FRI</div>
+                    <div class="weekday">SAT</div>
+                    <div class="weekday">SUN</div>
+
+                </div>
+
+                <div
+                    id="calendarGrid"
+                    class="calendar-grid">
+                </div>
+
+                <div class="legend">
+
+                    <div class="legend-item">
+                        <span class="legend-dot legend-green"></span>
+                        Present
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="legend-dot legend-red"></span>
+                        Absent
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="legend-dot legend-yellow"></span>
+                        Mixed
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             SUBJECTS
+        ================================================== -->
+
+        <section
+            id="subjects"
+            class="section">
+
+            <div class="page-header">
+
+                <h2>
+                    Subjects
+                </h2>
+
+                <button
+                    class="add-btn"
+                    onclick="openSubjectModal()">
+                    + Add
+                </button>
+
+            </div>
+
+            <div class="card">
+
+                <div
+                    id="subjectList"
+                    class="subject-list">
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- =================================================
+         BOTTOM NAV
+    ================================================== -->
+
+    <div class="bottom-nav">
+
+        <button
+            class="nav-btn active"
+            onclick="showSection('home',this)">
+
+            <span>🏠</span>
+            Home
+
+        </button>
+
+        <button
+            class="nav-btn"
+            onclick="showSection('calendar',this)">
+
+            <span>📅</span>
+            Calendar
+
+        </button>
+
+        <button
+            class="nav-btn"
+            onclick="showSection('subjects',this)">
+
+            <span>📚</span>
+            Subjects
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     ATTENDANCE MODAL
+===================================================== -->
+
+<div
+    id="attendanceModal"
+    class="modal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div class="modal-title">
+                Mark Attendance
+            </div>
+
+            <button
+                class="close-btn"
+                onclick="closeAttendanceModal()">
+                ×
+            </button>
+
+        </div>
+
+        <div
+            id="attendanceDate"
+            class="attendance-date">
+        </div>
+
+        <div
+            id="attendanceSubjects">
+        </div>
+
+        <button
+            class="save-btn"
+            onclick="saveAttendance()">
+            Save Attendance
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     ADD SUBJECT MODAL
+===================================================== -->
+
+<div
+    id="subjectModal"
+    class="modal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div class="modal-title">
+                Add Subject
+            </div>
+
+            <button
+                class="close-btn"
+                onclick="closeSubjectModal()">
+                ×
+            </button>
+
+        </div>
+
+        <input
+            id="subjectInput"
+            class="subject-input"
+            type="text"
+            placeholder="Enter subject name">
+
+        <button
+            class="save-btn"
+            onclick="addSubject()">
+            Add Subject
+        </button>
+
+    </div>
+
+</div>
+
+
+<div
+    id="toast"
+    class="toast">
+    Saved
+</div>
+
+
+<script>
+
+/* =====================================================
+   LAMP
+===================================================== */
+
+const lampStates = [
+
+    {
+        themeColor:"#2a2c30",
+        themeGlowRGB:"42,44,48",
+        shadeColor:"#2c2c2c",
+        bulbColor:"#1a1a1a",
+        lightOpacity:"0",
+        btnBg:"#2a2c30",
+        btnText:"#888",
+        awake:"0",
+        sleep:"1"
+    },
+
+    {
+        themeColor:"#22c55e",
+        themeGlowRGB:"34,197,94",
+        shadeColor:"#6c8c73",
+        bulbColor:"#e6ffe6",
+        lightOpacity:"0.15",
+        btnBg:"#22c55e",
+        btnText:"#fff",
+        awake:"1",
+        sleep:"0"
+    },
+
+    {
+        themeColor:"#2a2c30",
+        themeGlowRGB:"42,44,48",
+        shadeColor:"#2c2c2c",
+        bulbColor:"#1a1a1a",
+        lightOpacity:"0",
+        btnBg:"#2a2c30",
+        btnText:"#888",
+        awake:"0",
+        sleep:"1"
+    },
+
+    {
+        themeColor:"#f97316",
+        themeGlowRGB:"249,115,22",
+        shadeColor:"#947463",
+        bulbColor:"#fff0e6",
+        lightOpacity:"0.15",
+        btnBg:"#f97316",
+        btnText:"#fff",
+        awake:"1",
+        sleep:"0"
+    }
+
+];
+
+let currentStateIndex=0;
+
+const pullString =
+    document.querySelector(".pull-string-group");
+
+const rootStyles =
+    document.documentElement.style;
+
+const faceAwake =
+    document.querySelector(".face-awake");
+
+const faceSleep =
+    document.querySelector(".face-sleep");
+
+
+function toggleLamp(){
+
+    pullString.style.transform="translateY(15px)";
+
+    setTimeout(function(){
+
+        pullString.style.transform="translateY(0)";
+
+    },150);
+
+    currentStateIndex =
+        (currentStateIndex+1)%lampStates.length;
+
+    const config =
+        lampStates[currentStateIndex];
+
+    rootStyles.setProperty(
+        "--theme-color",
+        config.themeColor
+    );
+
+    rootStyles.setProperty(
+        "--theme-glow-rgb",
+        config.themeGlowRGB
+    );
+
+    rootStyles.setProperty(
+        "--shade-color",
+        config.shadeColor
+    );
+
+    rootStyles.setProperty(
+        "--bulb-color",
+        config.bulbColor
+    );
+
+    rootStyles.setProperty(
+        "--light-opacity",
+        config.lightOpacity
+    );
+
+    rootStyles.setProperty(
+        "--btn-bg",
+        config.btnBg
+    );
+
+    rootStyles.setProperty(
+        "--btn-text-color",
+        config.btnText
+    );
+
+    faceAwake.style.opacity=config.awake;
+    faceSleep.style.opacity=config.sleep;
+
+}
+
+
+/* =====================================================
+   DATA
+===================================================== */
+
+let currentUser=null;
+
+let subjects =
+    JSON.parse(
+        localStorage.getItem("attendx_subjects")
+    ) || [
+
+        "Political Theory",
+        "International Relations",
+        "History",
+        "Sociology",
+        "Psychology",
+        "English"
+
+    ];
+
+
+let records =
+    JSON.parse(
+        localStorage.getItem("attendx_records")
+    ) || {};
+
+
+let currentDate=new Date();
+
+let selectedDate=null;
+
+let tempAttendance={};
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+function togglePassword(){
+
+    const input =
+        document.getElementById("password");
+
+    input.type =
+        input.type==="password"
+        ? "text"
+        : "password";
+
+}
+
+
+function login(){
+
+    const username =
+        document
+        .getElementById("username")
+        .value
+        .trim();
+
+    const password =
+        document
+        .getElementById("password")
+        .value;
+
+    if(
+        username==="sanif" &&
+        password==="123@"
+    ){
+
+        currentUser={
+            username:"sanif"
+        };
+
+        /*
+           Login state intentionally
+           NOT saved.
+
+           So every time page opens/reloads,
+           login will be required again.
+        */
+
+        localStorage.removeItem(
+            "attendx_current_user"
+        );
+
+        document
+        .getElementById("loginError")
+        .style.display="none";
+
+        document
+        .getElementById("loginPage")
+        .style.display="none";
+
+        document
+        .getElementById("app")
+        .style.display="block";
+
+        renderAll();
+
+    }
+
+    else{
+
+        document
+        .getElementById("loginError")
+        .style.display="block";
+
+    }
+
+}
+
+
+document
+.getElementById("password")
+.addEventListener(
+    "keydown",
+    function(e){
+
+        if(e.key==="Enter"){
+            login();
+        }
+
+    }
+);
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout(){
+
+    currentUser=null;
+
+    document
+    .getElementById("app")
+    .style.display="none";
+
+    document
+    .getElementById("loginPage")
+    .style.display="flex";
+
+    document
+    .getElementById("username")
+    .value="";
+
+    document
+    .getElementById("password")
+    .value="";
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function showSection(id,button){
+
+    document
+    .querySelectorAll(".section")
+    .forEach(function(section){
+
+        section.classList.remove("active");
+
+    });
+
+    document
+    .getElementById(id)
+    .classList.add("active");
+
+
+    document
+    .querySelectorAll(".nav-btn")
+    .forEach(function(btn){
+
+        btn.classList.remove("active");
+
+    });
+
+    button.classList.add("active");
+
+
+    if(id==="calendar"){
+        renderCalendar();
+    }
+
+    if(id==="subjects"){
+        renderSubjects();
+    }
+
+    if(id==="home"){
+        renderDashboard();
+    }
+
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function calculateOverall(){
+
+    let present=0;
+    let absent=0;
+
+    Object.keys(records).forEach(function(date){
+
+        const day=records[date];
+
+        Object.keys(day).forEach(function(subject){
+
+            const status=day[subject];
+
+            if(
+                subjects.includes(subject) &&
+                status==="present"
+            ){
+
+                present++;
+
+            }
+
+            if(
+                subjects.includes(subject) &&
+                status==="absent"
+            ){
+
+                absent++;
+
+            }
+
+        });
+
+    });
+
+    const conducted =
+        present+absent;
+
+    const percentage =
+        conducted===0
+        ? 0
+        : (present/conducted)*100;
+
+    return {
+        present,
+        absent,
+        conducted,
+        percentage
+    };
+
+}
+
+
+function renderDashboard(){
+
+    const stats =
+        calculateOverall();
+
+    document
+    .getElementById("overallPercentage")
+    .textContent =
+        stats.percentage.toFixed(1)+"%";
+
+    document
+    .getElementById("overallProgress")
+    .style.width =
+        Math.min(stats.percentage,100)+"%";
+
+    document
+    .getElementById("presentHours")
+    .textContent =
+        stats.present;
+
+    document
+    .getElementById("absentHours")
+    .textContent =
+        stats.absent;
+
+    document
+    .getElementById("conductedHours")
+    .textContent =
+        stats.conducted;
+
+    renderHomeSubjects();
+
+}
+
+
+/* =====================================================
+   SUBJECT STATS
+===================================================== */
+
+function getSubjectStats(subject){
+
+    let present=0;
+    let absent=0;
+
+    Object.keys(records).forEach(function(date){
+
+        const day=records[date];
+
+        if(day[subject]==="present"){
+            present++;
+        }
+
+        if(day[subject]==="absent"){
+            absent++;
+        }
+
+    });
+
+    const conducted =
+        present+absent;
+
+    const percentage =
+        conducted===0
+        ? 0
+        : (present/conducted)*100;
+
+    return {
+        present,
+        absent,
+        conducted,
+        percentage
+    };
+
+}
+
+
+/* =====================================================
+   HOME SUBJECTS
+===================================================== */
+
+function renderHomeSubjects(){
+
+    const container =
+        document.getElementById(
+            "homeSubjects"
+        );
+
+    container.innerHTML="";
+
+    if(subjects.length===0){
+
+        container.innerHTML=`
+            <div style="
+                grid-column:1/-1;
+                color:#687382;
+                text-align:center;
+                padding:20px;
+            ">
+                No subjects added
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    subjects.forEach(function(subject){
+
+        const stats =
+            getSubjectStats(subject);
+
+        const card =
+            document.createElement("div");
+
+        card.className="subject-card";
+
+        card.innerHTML=`
+
+            <div class="subject-name">
+                ${escapeHTML(subject)}
+            </div>
+
+            <div class="subject-percent">
+                ${stats.percentage.toFixed(1)}%
+            </div>
+
+            <div class="subject-mini">
+                ${stats.present} Present
+                •
+                ${stats.absent} Absent
+            </div>
+
+            <div class="subject-progress">
+                <div
+                    class="subject-progress-bar"
+                    style="width:${Math.min(
+                        stats.percentage,
+                        100
+                    )}%">
+                </div>
+            </div>
+
+        `;
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+/* =====================================================
+   SUBJECT PAGE
+===================================================== */
+
+function renderSubjects(){
+
+    const container =
+        document.getElementById(
+            "subjectList"
+        );
+
+    container.innerHTML="";
+
+
+    if(subjects.length===0){
+
+        container.innerHTML=`
+            <div style="
+                text-align:center;
+                color:#687382;
+                padding:25px;
+            ">
+                No subjects added.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    subjects.forEach(function(subject,index){
+
+        const row =
+            document.createElement("div");
+
+        row.className="subject-row";
+
+        row.innerHTML=`
+
+            <div class="subject-row-left">
+
+                <div class="subject-icon">
+                    📚
+                </div>
+
+                <div>
+
+                    <div style="
+                        font-size:13px;
+                        font-weight:600;
+                    ">
+                        ${escapeHTML(subject)}
+                    </div>
+
+                    <div style="
+                        font-size:10px;
+                        color:#687382;
+                        margin-top:3px;
+                    ">
+                        ${getSubjectStats(subject)
+                            .percentage
+                            .toFixed(1)}% attendance
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button
+                class="delete-subject"
+                onclick="deleteSubject(${index})">
+                🗑
+            </button>
+
+        `;
+
+        container.appendChild(row);
+
+    });
+
+}
+
+
+/* =====================================================
+   ADD SUBJECT
+===================================================== */
+
+function openSubjectModal(){
+
+    document
+    .getElementById("subjectModal")
+    .classList.add("show");
+
+    document
+    .getElementById("subjectInput")
+    .value="";
+
+    setTimeout(function(){
+
+        document
+        .getElementById("subjectInput")
+        .focus();
+
+    },100);
+
+}
+
+
+function closeSubjectModal(){
+
+    document
+    .getElementById("subjectModal")
+    .classList.remove("show");
+
+}
+
+
+function addSubject(){
+
+    const input =
+        document
+        .getElementById("subjectInput");
+
+    const name =
+        input.value.trim();
+
+    if(!name){
+
+        showToast("Enter subject name");
+
+        return;
+
+    }
+
+
+    if(
+        subjects.some(function(s){
+
+            return s.toLowerCase()===
+                   name.toLowerCase();
+
+        })
+    ){
+
+        showToast("Subject already exists");
+
+        return;
+
+    }
+
+
+    subjects.push(name);
+
+    localStorage.setItem(
+        "attendx_subjects",
+        JSON.stringify(subjects)
+    );
+
+    closeSubjectModal();
+
+    renderAll();
+
+    showToast("Subject added");
+
+
+}
+
+
+document
+.getElementById("subjectInput")
+.addEventListener(
+    "keydown",
+    function(e){
+
+        if(e.key==="Enter"){
+            addSubject();
+        }
+
+    }
+);
+
+
+/* =====================================================
+   DELETE SUBJECT
+===================================================== */
+
+function deleteSubject(index){
+
+    const name=subjects[index];
+
+    if(
+        !confirm(
+            "Delete \""+
+            name+
+            "\"?"
+        )
+    ){
+
+        return;
+
+    }
+
+    subjects.splice(index,1);
+
+    localStorage.setItem(
+        "attendx_subjects",
+        JSON.stringify(subjects)
+    );
+
+    renderAll();
+
+    showToast("Subject deleted");
+
+}
+
+
+/* =====================================================
+   CALENDAR
+===================================================== */
+
+function changeMonth(direction){
+
+    currentDate.setMonth(
+        currentDate.getMonth()+direction
+    );
+
+    renderCalendar();
+
+}
+
+
+function renderCalendar(){
+
+    const year =
+        currentDate.getFullYear();
+
+    const month =
+        currentDate.getMonth();
+
+
+    const monthNames=[
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    ];
+
+
+    document
+    .getElementById("calendarTitle")
+    .textContent =
+        monthNames[month]+" "+year;
+
+
+    const grid =
+        document
+        .getElementById("calendarGrid");
+
+    grid.innerHTML="";
+
+
+    /*
+       JS:
+       Sunday = 0
+       Monday = 1
+
+       Convert to Monday-first.
+    */
+
+    const firstDay =
+        new Date(year,month,1)
+        .getDay();
+
+    const mondayIndex =
+        firstDay===0
+        ? 6
+        : firstDay-1;
+
+
+    const daysInMonth =
+        new Date(
+            year,
+            month+1,
+            0
+        ).getDate();
+
+
+    for(
+        let i=0;
+        i<mondayIndex;
+        i++
+    ){
+
+        const empty =
+            document.createElement("div");
+
+        empty.className="day empty";
+
+        grid.appendChild(empty);
+
+    }
+
+
+    const today =
+        new Date();
+
+    for(
+        let day=1;
+        day<=daysInMonth;
+        day++
+    ){
+
+        const cell =
+            document.createElement("div");
+
+        cell.className="day";
+
+
+        const dateObj =
+            new Date(
+                year,
+                month,
+                day
+            );
+
+
+        const dayOfWeek =
+            dateObj.getDay();
+
+
+        const isWeekend =
+            dayOfWeek===0 ||
+            dayOfWeek===6;
+
+
+        if(isWeekend){
+
+            cell.classList.add("weekend");
+
+        }
+
+
+        if(
+            dateObj.getDate()===today.getDate() &&
+            dateObj.getMonth()===today.getMonth() &&
+            dateObj.getFullYear()===today.getFullYear()
+        ){
+
+            cell.classList.add("today");
+
+        }
+
+
+        const dateString =
+            year+
+            "-"+
+            String(month+1).padStart(2,"0")+
+            "-"+
+            String(day).padStart(2,"0");
+
+
+        let statusText="Not marked";
+        let statusClass="none";
+
+
+        if(records[dateString]){
+
+            const values =
+                Object
+                .values(records[dateString])
+                .filter(function(value){
+
+                    return value==="present" ||
+                           value==="absent";
+
+                });
+
+
+            const hasPresent =
+                values.includes("present");
+
+            const hasAbsent =
+                values.includes("absent");
+
+
+            if(
+                hasPresent &&
+                !hasAbsent
+            ){
+
+                statusText="Present";
+                statusClass="present";
+
+            }
+
+            else if(
+                hasAbsent &&
+                !hasPresent
+            ){
+
+                statusText="Absent";
+                statusClass="absent";
+
+            }
+
+            else if(
+                hasPresent &&
+                hasAbsent
+            ){
+
+                statusText="Mixed";
+                statusClass="mixed";
+
+            }
+
+        }
+
+
+        cell.innerHTML=`
+
+            <div class="day-number">
+                ${day}
+            </div>
+
+            <div
+                class="day-status ${statusClass}">
+                ${statusText}
+            </div>
+
+        `;
+
+
+        if(!isWeekend){
+
+            cell.onclick=function(){
+
+                openAttendance(dateString);
+
+            };
+
+        }
+
+
+        grid.appendChild(cell);
+
+    }
+
+}
+
+
+/* =====================================================
+   ATTENDANCE
+===================================================== */
+
+function openAttendance(date){
+
+    selectedDate=date;
+
+    tempAttendance={};
+
+
+    if(records[date]){
+
+        subjects.forEach(function(subject){
+
+            tempAttendance[subject] =
+                records[date][subject] ||
+                "none";
+
+        });
+
+    }
+
+    else{
+
+        subjects.forEach(function(subject){
+
+            tempAttendance[subject]="none";
+
+        });
+
+    }
+
+
+    document
+    .getElementById("attendanceDate")
+    .textContent =
+        formatDate(date);
+
+
+    renderAttendanceSubjects();
+
+
+    document
+    .getElementById("attendanceModal")
+    .classList.add("show");
+
+}
+
+
+function closeAttendanceModal(){
+
+    document
+    .getElementById("attendanceModal")
+    .classList.remove("show");
+
+}
+
+
+function renderAttendanceSubjects(){
+
+    const container =
+        document.getElementById(
+            "attendanceSubjects"
+        );
+
+    container.innerHTML="";
+
+
+    if(subjects.length===0){
+
+        container.innerHTML=`
+            <div style="
+                text-align:center;
+                color:#687382;
+                padding:20px;
+            ">
+                Add subjects first.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    subjects.forEach(function(subject,index){
+
+        const status =
+            tempAttendance[subject] ||
+            "none";
+
+
+        const row =
+            document.createElement("div");
+
+        row.className="attendance-row";
+
+        row.innerHTML=`
+
+            <div class="attendance-subject">
+                ${index+1}. ${escapeHTML(subject)}
+            </div>
+
+            <div class="attendance-options">
+
+                <button
+                    class="attendance-option present ${
+                        status==="present"
+                        ? "active"
+                        : ""
+                    }"
+                    onclick="selectAttendance(
+                        '${escapeJS(subject)}',
+                        'present'
+                    )">
+                    ✓ Present
+                </button>
+
+                <button
+                    class="attendance-option absent ${
+                        status==="absent"
+                        ? "active"
+                        : ""
+                    }"
+                    onclick="selectAttendance(
+                        '${escapeJS(subject)}',
+                        'absent'
+                    )">
+                    ✕ Absent
+                </button>
+
+                <button
+                    class="attendance-option none ${
+                        status==="none"
+                        ? "active"
+                        : ""
+                    }"
+                    onclick="selectAttendance(
+                        '${escapeJS(subject)}',
+                        'none'
+                    )">
+                    — No Class
+                </button>
+
+            </div>
+
+        `;
+
+        container.appendChild(row);
+
+    });
+
+}
+
+
+function selectAttendance(subject,status){
+
+    tempAttendance[subject]=status;
+
+    renderAttendanceSubjects();
+
+}
+
+
+/* =====================================================
+   SAVE ATTENDANCE
+===================================================== */
+
+function saveAttendance(){
+
+    if(!selectedDate){
+
+        return;
+
+    }
+
+
+    /*
+       Create date record only if
+       at least one subject is marked.
+    */
+
+    const markedSubjects =
+        subjects.filter(function(subject){
+
+            return tempAttendance[subject]==="present" ||
+                   tempAttendance[subject]==="absent";
+
+        });
+
+
+    if(markedSubjects.length===0){
+
+        delete records[selectedDate];
+
+    }
+
+    else{
+
+        records[selectedDate]={};
+
+        subjects.forEach(function(subject){
+
+            const status =
+                tempAttendance[subject] ||
+                "none";
+
+            records[selectedDate][subject]=status;
+
+        });
+
+    }
+
+
+    localStorage.setItem(
+        "attendx_records",
+        JSON.stringify(records)
+    );
+
+
+    closeAttendanceModal();
+
+    renderAll();
+
+    showToast("Attendance saved ✓");
+
+}
+
+
+/* =====================================================
+   DATE FORMAT
+===================================================== */
+
+function formatDate(date){
+
+    return new Date(
+        date+"T00:00:00"
+    ).toLocaleDateString(
+        "en-IN",
+        {
+            weekday:"long",
+            day:"numeric",
+            month:"long",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+/* =====================================================
+   ESCAPE
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+function escapeJS(value){
+
+    return String(value)
+        .replace(/\\/g,"\\\\")
+        .replace(/'/g,"\\'")
+        .replace(/"/g,'\\"');
+
+}
+
+
+/* =====================================================
+   RENDER ALL
+===================================================== */
+
+function renderAll(){
+
+    renderDashboard();
+
+    renderSubjects();
+
+    renderCalendar();
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+let toastTimer=null;
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent=message;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer=setTimeout(function(){
+
+        toast.classList.remove("show");
+
+    },2200);
+
+}
+
+
+/* =====================================================
+   MODAL OUTSIDE CLICK
+===================================================== */
+
+document
+.getElementById("attendanceModal")
+.addEventListener(
+    "click",
+    function(e){
+
+        if(e.target===this){
+
+            closeAttendanceModal();
+
+        }
+
+    }
+);
+
+
+document
+.getElementById("subjectModal")
+.addEventListener(
+    "click",
+    function(e){
+
+        if(e.target===this){
+
+            closeSubjectModal();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   AUTO MIDNIGHT REFRESH
+===================================================== */
+
+function scheduleMidnightRefresh(){
+
+    const now=new Date();
+
+
+    /*
+       Next day 12:00:01 AM
+    */
+
+    const nextMidnight =
+        new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate()+1,
+            0,
+            0,
+            1
+        );
+
+
+    const timeUntilMidnight =
+        nextMidnight.getTime() -
+        now.getTime();
+
+
+    setTimeout(function(){
+
+        /*
+           Update current date
+        */
+
+        currentDate=new Date();
+
+
+        /*
+           Refresh dashboard,
+           subjects and calendar
+        */
+
+        renderAll();
+
+
+        /*
+           If calendar is open,
+           make today's month visible.
+        */
+
+        const calendarSection =
+            document.getElementById(
+                "calendar"
+            );
+
+
+        if(
+            calendarSection &&
+            calendarSection.classList.contains(
+                "active"
+            )
+        ){
+
+            currentDate=new Date();
+
+            renderCalendar();
+
+        }
+
+
+        /*
+           Start timer for next midnight
+        */
+
+        scheduleMidnightRefresh();
+
+    },timeUntilMidnight);
+
+}
+
+
+/* =====================================================
+   START MIDNIGHT TIMER
+===================================================== */
+
+scheduleMidnightRefresh();
+
+
+/* =====================================================
+   IMPORTANT:
+   ALWAYS SHOW LOGIN ON PAGE LOAD
+===================================================== */
+
+window.onload=function(){
+
+    /*
+       Do NOT restore login session.
+
+       Attendance and subjects remain saved.
+       Only login session is cleared.
+    */
+
+    currentUser=null;
+
+    localStorage.removeItem(
+        "attendx_current_user"
+    );
+
+
+    document
+    .getElementById("loginPage")
+    .style.display="flex";
+
+
+    document
+    .getElementById("app")
+    .style.display="none";
+
+
+    document
+    .getElementById("username")
+    .value="";
+
+    document
+    .getElementById("password")
+    .value="";
+
+};
+
+</script>
+
+</body>
+</html>
